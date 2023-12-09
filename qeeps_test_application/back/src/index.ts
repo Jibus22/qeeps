@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import { usersRouter } from "./routes/users";
+import { authRouter } from "./routes/auth";
+import { populateDb } from "./mock/mockFactory";
 
 const app = express();
 const port = 3000;
@@ -15,6 +17,7 @@ const mongodb = {
 };
 
 app.use(express.json());
+app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 
 main();
@@ -38,6 +41,8 @@ async function main() {
         }),
       })
     );
+
+    await populateDb();
   } catch (e) {
     console.error(`error connecting to the database: ${e}`);
     process.exit(1);
