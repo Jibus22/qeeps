@@ -34,14 +34,14 @@ const userSchema = new Schema<IUser>({
   type: { type: String, required: true },
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   birthdate: { type: String, required: true },
   address: { type: String, required: true },
   income: { type: Number, required: true },
   job: { type: String },
   situation: { type: String, required: true },
-  guarantor: [{ type: Schema.Types.ObjectId }],
+  guarantor: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 
 const User = model<IUser>("User", userSchema);
