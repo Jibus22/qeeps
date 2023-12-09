@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { router as usersRouter } from "./routes/users";
+import { usersRouter } from "./routes/users";
 
 const app = express();
 const port = 3000;
