@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import cors from "cors";
 import { usersRouter } from "./routes/users";
 import { authRouter } from "./routes/auth";
 import { populateDb } from "./mock/mockFactory";
@@ -16,6 +17,7 @@ const mongodb = {
   dbName: "qeeps",
 };
 
+app.use(cors());
 app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
