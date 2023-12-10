@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Root, { loader as rootLoader } from "./routes/root/root";
+import Root, {
+  loader as rootLoader,
+  action as rootAction,
+} from "./routes/root/root";
 import Auth, { loader as authLoader } from "./routes/auth/auth";
 import Index from "./routes/root";
 import AuthIndex, { action as authIdxAction } from "./routes/auth";
@@ -13,6 +16,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     loader: rootLoader,
+    action: rootAction,
     errorElement: <ErrorPage />,
     children: [
       {

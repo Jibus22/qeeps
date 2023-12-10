@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Button,
   Center,
   Container,
@@ -6,7 +8,12 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { ActionFunctionArgs, Form } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  Form,
+  redirect,
+  useActionData,
+} from "react-router-dom";
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -15,16 +22,22 @@ export async function action({ request }: ActionFunctionArgs) {
   const req = new Request("http://localhost:3000/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(inputs),
   });
 
   const res = await fetch(req);
-  const jsonRes = await res.json();
 
-  return null;
+  if (res.ok) return redirect("/");
+
+  const err = await res.json();
+
+  return err;
 }
 
 export default function AuthIndex() {
+  const err = useActionData() as { message: string };
+
   return (
     <Container>
       <Center m="10">
@@ -32,7 +45,11 @@ export default function AuthIndex() {
           Qeeps
         </Text>
       </Center>
-      <Center>
+      <Center
+        padding="1em"
+        boxShadow="0px 5px 50px -5px rgba(0,0,0,0.15)"
+        borderRadius="5px"
+      >
         <Form method="post">
           <SimpleGrid columns={1} spacing={5}>
             <Input name="email" type="email" placeholder="email" />
@@ -42,6 +59,14 @@ export default function AuthIndex() {
             </Button>
           </SimpleGrid>
         </Form>
+      </Center>
+      <Center margin="1em">
+        {err && (
+          <Alert status="error" borderRadius="5px" width="80%">
+            <AlertIcon />
+            {err.message}
+          </Alert>
+        )}
       </Center>
     </Container>
   );

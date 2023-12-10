@@ -1,7 +1,12 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 
 export async function loader() {
-  // redirect to root if user has a session
+  const response = await fetch("http://localhost:3000/users/me", {
+    credentials: "include",
+  });
+
+  if (response.ok) return redirect("/");
+
   return null;
 }
 
