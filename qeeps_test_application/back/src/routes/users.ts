@@ -1,11 +1,21 @@
 import express, { Request, Response, NextFunction } from "express";
 import { IUserKeys, User } from "../models/user";
 
-interface customRes extends Response {
-  user?: any;
+declare module "express-serve-static-core" {
+  export interface Response {
+    user?: any;
+  }
 }
 
 const router = express.Router();
+
+router.use((req, res, next) => {
+  if (req.session.user) next();
+  else
+    res
+      .status(401)
+      .json({ message: "you're not allowed to access this ressource" });
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -16,7 +26,17 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", getUser, (req, res: customRes) => {
+router.get("/me", async (req, res) => {
+  try {
+    const user = await User.findById(req.session.user);
+    if (!user) return res.status(404).json({ message: "cannot find user" });
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ message: e });
+  }
+});
+
+router.get("/:id", getUser, (req, res) => {
   res.json(res.user);
 });
 
@@ -43,7 +63,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.patch("/:id", getUser, async (req, res: customRes) => {
+router.patch("/:id", getUser, async (req, res) => {
   try {
     for (let [key, value] of Object.entries(req.body)) {
       if (IUserKeys.includes(key)) res.user[key] = value;
@@ -56,7 +76,7 @@ router.patch("/:id", getUser, async (req, res: customRes) => {
   }
 });
 
-router.delete("/:id", getUser, async (req, res: customRes) => {
+router.delete("/:id", getUser, async (req, res) => {
   try {
     await res.user.deleteOne();
     res.json({ message: "deleted user" });
@@ -65,7 +85,7 @@ router.delete("/:id", getUser, async (req, res: customRes) => {
   }
 });
 
-async function getUser(req: Request, res: customRes, next: NextFunction) {
+async function getUser(req: Request, res: Response, next: NextFunction) {
   let user;
   try {
     user = await User.findById(req.params.id);

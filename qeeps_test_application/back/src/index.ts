@@ -7,6 +7,12 @@ import { usersRouter } from "./routes/users";
 import { authRouter } from "./routes/auth";
 import { populateDb } from "./mock/mockFactory";
 
+declare module "express-session" {
+  interface SessionData {
+    user: string | null;
+  }
+}
+
 const app = express();
 const port = 3000;
 
@@ -17,8 +23,22 @@ const mongodb = {
   dbName: "qeeps",
 };
 
-app.use(cors());
+const sessionStore = MongoStore.create({
+  mongoUrl: `mongodb://${process.env.ME_CONFIG_MONGODB_ADMINUSERNAME}:${process.env.ME_CONFIG_MONGODB_ADMINPASSWORD}@${process.env.ME_CONFIG_MONGODB_SERVER}`,
+  dbName: mongodb.dbName,
+});
+
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET || "supersecret",
+  resave: false,
+  saveUninitialized: false,
+  store: sessionStore,
+};
+
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
+app.use(session(sessionOptions));
+
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 
@@ -31,18 +51,6 @@ async function main() {
       pass: mongodb.pwd,
       dbName: mongodb.dbName,
     });
-
-    app.use(
-      session({
-        secret: process.env.SESSION_SECRET || "supersecret",
-        resave: false,
-        saveUninitialized: false,
-        store: MongoStore.create({
-          client: mongoose.connection.getClient(),
-          dbName: mongodb.dbName,
-        }),
-      })
-    );
 
     await populateDb();
   } catch (e) {
