@@ -10,6 +10,7 @@ import Index from "./routes/root";
 import AuthIndex, { action as authIdxAction } from "./routes/auth";
 import ErrorPage from "./routes/error/errorPage";
 import { ChakraProvider } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 
 const router = createBrowserRouter([
   {
@@ -50,9 +51,27 @@ const router = createBrowserRouter([
   },
 ]);
 
+const theme = extendTheme({
+  fonts: {
+    body: "Poppins",
+  },
+  styles: {
+    global: {
+      "html, body": {
+        color: "#164951",
+        fontWeight: "500",
+        fontSize: "14px",
+      },
+      "*::placeholder": {
+        color: "#999",
+      },
+    },
+  },
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <RouterProvider router={router} />
     </ChakraProvider>
   </React.StrictMode>

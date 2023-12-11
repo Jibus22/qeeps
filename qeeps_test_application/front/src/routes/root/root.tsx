@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Flex, Box, Button } from "@chakra-ui/react";
 import { Form, Outlet, redirect, useLoaderData } from "react-router-dom";
 
 export async function loader() {
@@ -37,9 +37,22 @@ export default function Root() {
           </Button>
         </Form>
       </Box>
-      <div>
-        <Outlet context={user} />
-      </div>
+      <Flex alignItems={"flex-start"} gap={"32px"}>
+        <Box
+          background={"#F2F2F2"}
+          width={"240px"}
+          flexShrink={"0"}
+          alignSelf={"stretch"}
+        ></Box>
+        <Flex
+          padding={"32px 32px 32px 0px"}
+          flexDir={"column"}
+          alignItems={"flex-start"}
+          gap={"32px"}
+        >
+          <Outlet context={user} />
+        </Flex>
+      </Flex>
     </>
   );
 }
