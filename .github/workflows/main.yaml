@@ -13,7 +13,7 @@ jobs:
         with:
           working-directory: ./qeeps_test_application/front
           build: npm run build
-          start: npm run test:e2e:dev
+          start: npm run test:e2e:run
       - name: Setup tmate session
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3

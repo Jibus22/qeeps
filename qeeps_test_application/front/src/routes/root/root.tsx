@@ -2,15 +2,20 @@ import { Flex, Box, Button } from "@chakra-ui/react";
 import { Form, Outlet, redirect, useLoaderData } from "react-router-dom";
 
 export async function loader() {
-  const response = await fetch("http://localhost:3000/users/me", {
-    credentials: "include",
-  });
+  try {
+    const response = await fetch("http://localhost:3000/users/me", {
+      credentials: "include",
+    });
 
-  if (!response.ok) return redirect("/auth");
+    if (!response.ok) return redirect("/auth");
+    const user = await response.json();
 
-  const user = await response.json();
+    return user;
+  } catch (e) {
+    console.error(e);
+  }
 
-  return user;
+  return redirect("/auth");
 }
 
 export async function action() {
