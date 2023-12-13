@@ -13,4 +13,22 @@ async function populateDb() {
     );
 }
 
-export { populateDb };
+async function addRandomGuarantors() {
+  try {
+    const users = await User.where("type").equals("candidate").limit(10);
+    const guarantors = await User.where("type").equals("guarantor").limit(20);
+    for (let i = 0; i < users.length && i * 2 < guarantors.length; i++) {
+      if (users[i].guarantor && (users[i].guarantor?.length ?? [""].length > 0))
+        return;
+      users[i].guarantor?.push(guarantors[i + i]);
+      users[i].guarantor?.push(guarantors[i + i + 1]);
+      await users[i].save();
+      console.log("Guarantor successfully added to user");
+      console.log(users[i]);
+    }
+  } catch (e) {
+    console.error(`failed to add guarantors: ${e}`);
+  }
+}
+
+export { populateDb, addRandomGuarantors };

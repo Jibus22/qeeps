@@ -17,6 +17,7 @@ import paperMoneyIcon from "../../../assets/paper-money-two.svg";
 import folderIcon from "../../../assets/folder.svg";
 import phoneIcon from "../../../assets/phone.svg";
 import idIcon from "../../../assets/id-card.svg";
+import { useOutletContext } from "react-router-dom";
 
 export function TenantBody() {
   return (
@@ -31,11 +32,13 @@ export function TenantBody() {
 }
 
 function GlanceFilePrez() {
-  const { income, guarantorIncome, situation } = {
-    income: "4500€",
-    guarantorIncome: "1750€",
-    situation: "CDI",
-  };
+  const user = useOutletContext() as IUser;
+
+  const guarantorsIncome = user.guarantor
+    ?.map((elem) => {
+      return elem.income;
+    })
+    .reduce((a, c) => a + c, 0);
 
   return (
     <Flex
@@ -50,15 +53,15 @@ function GlanceFilePrez() {
       </Flex>
       <Flex alignItems={"center"} gap={"16px"} alignSelf={"stretch"}>
         <FlashCard
-          title={income}
+          title={`${user.income}€`}
           text={["NET MENSUEL", "(avant impôts)"]}
         ></FlashCard>
         <FlashCard
-          title={situation}
+          title={user.situation}
           text={["PRISE DE FONCTION", "le 17/03/2018"]}
         ></FlashCard>
         <FlashCard
-          title={guarantorIncome}
+          title={`${guarantorsIncome}€`}
           text={["NET MENSUEL GARANT", "(avant impôts)"]}
         ></FlashCard>
       </Flex>
@@ -163,13 +166,8 @@ function FlashCard({ title, text }: { title: string; text: string[] }) {
 }
 
 function Candidate() {
-  const candidateName = "Fabien Bricard";
-  const fullInfos = {
-    phone: "0609590385",
-    mail: "coucou@coucou.org",
-    situation: "CDI",
-    income: 2000,
-  };
+  const user = useOutletContext() as IUser;
+  const fullName = user.firstname + " " + user.lastname;
 
   return (
     <Accordion defaultIndex={[0]} allowMultiple>
@@ -184,7 +182,7 @@ function Candidate() {
               fontWeight={500}
               lineHeight={"120%"}
             >
-              Candidat principal : {candidateName}
+              Candidat principal : {fullName}
             </Box>
             <AccordionIcon />
           </AccordionButton>
@@ -198,8 +196,8 @@ function Candidate() {
           gap={"16px"}
           alignSelf={"stretch"}
         >
-          <ProfileInfoHeader></ProfileInfoHeader>
-          <ProfileFullInfo infos={fullInfos}></ProfileFullInfo>
+          <ProfileInfoHeader fullName={fullName}></ProfileInfoHeader>
+          <ProfileFullInfo infos={user}></ProfileFullInfo>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
@@ -207,49 +205,54 @@ function Candidate() {
 }
 
 function Guarantors() {
-  const guarantors = ["Martine Bricard", "Alban Colin Bricard"];
+  const user = useOutletContext() as IUser;
+  const guarantors = user.guarantor;
 
   return (
-    <Accordion allowMultiple>
-      {guarantors.map((elem, idx) => {
-        return (
-          <AccordionItem key={idx} border={"none"} marginBottom={"32px"}>
-            <h2>
-              <AccordionButton padding={"0em"}>
-                <Box
-                  as="span"
-                  flex="0 1 auto"
-                  textAlign="left"
-                  fontSize={"20px"}
-                  fontWeight={500}
-                  lineHeight={"120%"}
+    <>
+      {(guarantors?.length ?? [].length > 0) && (
+        <Accordion allowMultiple>
+          {guarantors?.map((guarantor, idx) => {
+            const fullName = guarantor.firstname + " " + guarantor.lastname;
+            return (
+              <AccordionItem key={idx} border={"none"} marginBottom={"32px"}>
+                <h2>
+                  <AccordionButton padding={"0em"}>
+                    <Box
+                      as="span"
+                      flex="0 1 auto"
+                      textAlign="left"
+                      fontSize={"20px"}
+                      fontWeight={500}
+                      lineHeight={"120%"}
+                    >
+                      Garant : {fullName}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel
+                  padding={"0em"}
+                  marginTop={"16px"}
+                  display={"flex"}
+                  flexDir={"column"}
+                  alignItems={"flex-start"}
+                  gap={"16px"}
+                  alignSelf={"stretch"}
                 >
-                  Garant : {elem}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel
-              padding={"0em"}
-              marginTop={"16px"}
-              display={"flex"}
-              flexDir={"column"}
-              alignItems={"flex-start"}
-              gap={"16px"}
-              alignSelf={"stretch"}
-            >
-              Info Garant {idx}
-            </AccordionPanel>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
+                  <ProfileFullInfo infos={guarantor}></ProfileFullInfo>
+                </AccordionPanel>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
+      )}
+    </>
   );
 }
 
-function ProfileInfoHeader() {
-  const fullName = "Fabien Bricard";
-  const link = "fabien.bricard";
+function ProfileInfoHeader({ fullName }: { fullName: string }) {
+  const link = fullName.replace(" ", ".").toLowerCase();
   return (
     <Flex
       padding={"16px 24px"}
@@ -284,9 +287,9 @@ const translate = {
     title: "Téléphone",
     icon: <Image src={phoneIcon} alt="phoneIcon" />,
   },
-  mail: { title: "Mail", icon: <Image src={mailIcon} alt="mailIcon" /> },
+  email: { title: "Mail", icon: <Image src={mailIcon} alt="mailIcon" /> },
   situation: {
-    title: "Situation Professionnelle",
+    title: "Situation professionnelle",
     icon: <Image src={folderIcon} alt="folderIcon" />,
   },
   income: {
@@ -299,7 +302,7 @@ const translate = {
   },
 };
 
-function ProfileFullInfo({ infos }: { infos: any }) {
+function ProfileFullInfo({ infos }: { infos: IUser }) {
   return (
     <Flex
       padding={"8px 32px"}
@@ -315,7 +318,7 @@ function ProfileFullInfo({ infos }: { infos: any }) {
         alignItems={"flex-start"}
         flex={"1 0 0"}
       >
-        {Object.entries(infos).map((elem) => {
+        {Object.entries(infos).map((elem, idx) => {
           if (
             !(elem[0] in translate) ||
             (typeof elem[1] !== "string" && typeof elem[1] !== "number")
@@ -326,6 +329,7 @@ function ProfileFullInfo({ infos }: { infos: any }) {
 
           return (
             <Flex
+              key={idx}
               padding={"8px 0px"}
               alignItems={"center"}
               gap={"4px"}

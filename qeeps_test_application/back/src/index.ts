@@ -5,7 +5,7 @@ import MongoStore from "connect-mongo";
 import cors from "cors";
 import { usersRouter } from "./routes/users";
 import { authRouter } from "./routes/auth";
-import { populateDb } from "./mock/mockFactory";
+import { populateDb, addRandomGuarantors } from "./mock/mockFactory";
 
 declare module "express-session" {
   interface SessionData {
@@ -53,6 +53,7 @@ async function main() {
     });
 
     await populateDb();
+    await addRandomGuarantors();
   } catch (e) {
     console.error(`error connecting to the database: ${e}`);
     process.exit(1);

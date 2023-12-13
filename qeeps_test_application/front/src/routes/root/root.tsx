@@ -27,7 +27,7 @@ export async function action() {
 }
 
 export default function Root() {
-  const user = useLoaderData();
+  const user = useLoaderData() as IUser;
 
   return (
     <>

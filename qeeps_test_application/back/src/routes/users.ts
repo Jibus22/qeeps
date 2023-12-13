@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
 
 router.get("/me", async (req, res) => {
   try {
-    const user = await User.findById(req.session.user);
+    const user = await User.findById(req.session.user).populate("guarantor");
     if (!user) return res.status(404).json({ message: "cannot find user" });
     res.json(user);
   } catch (e) {
