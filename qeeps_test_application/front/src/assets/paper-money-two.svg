@@ -1,0 +1,16 @@
+<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="paper-money-two" clip-path="url(#clip0_1_7696)">
+<path id="Vector" d="M16 0.509399H0V16.5094H16V0.509399Z" fill="white" fill-opacity="0.01"/>
+<path id="Vector_2" d="M1.33337 4.84271H14.6667V12.8427H1.33337V4.84271Z" stroke="#666666" stroke-width="1.2" stroke-linejoin="round"/>
+<path id="Vector_3" fill-rule="evenodd" clip-rule="evenodd" d="M1.33337 7.50938C2.80613 7.50938 4.00004 6.31548 4.00004 4.84271H1.33337V7.50938Z" stroke="#666666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" fill-rule="evenodd" clip-rule="evenodd" d="M1.33337 10.1761C2.80613 10.1761 4.00004 11.37 4.00004 12.8428H1.33337V10.1761Z" stroke="#666666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" fill-rule="evenodd" clip-rule="evenodd" d="M14.6667 10.1761V12.8428H12C12 11.37 13.1939 10.1761 14.6667 10.1761Z" stroke="#666666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_6" fill-rule="evenodd" clip-rule="evenodd" d="M14.6667 7.50938C13.1939 7.50938 12 6.31548 12 4.84271H14.6667V7.50938Z" stroke="#666666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_7" d="M8.00004 10.8427C8.92051 10.8427 9.66671 9.94728 9.66671 8.84271C9.66671 7.73815 8.92051 6.84271 8.00004 6.84271C7.07957 6.84271 6.33337 7.73815 6.33337 8.84271C6.33337 9.94728 7.07957 10.8427 8.00004 10.8427Z" stroke="#666666" stroke-width="1.2" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_1_7696">
+<rect width="16" height="16" fill="white" transform="translate(0 0.509399)"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,15 @@
+<svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="people-safe" clip-path="url(#clip0_111_341)">
+<path id="Vector" d="M1.5 2.82331L6.00215 1.5094L10.5 2.82331V5.51782C10.5 8.34995 8.68755 10.6142 6.00065 11.5095C3.31302 10.6143 1.5 8.3494 1.5 5.51657V2.82331Z" stroke="#6FB482" stroke-linejoin="round"/>
+<path id="Vector_2" d="M6 6.2594C6.69036 6.2594 7.25 5.69976 7.25 5.0094C7.25 4.31904 6.69036 3.7594 6 3.7594C5.30964 3.7594 4.75 4.31904 4.75 5.0094C4.75 5.69976 5.30964 6.2594 6 6.2594Z" stroke="#6FB482" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="Vector_3">
+<path d="M8 8.2594C8 7.15482 7.10458 6.2594 6 6.2594C4.89542 6.2594 4 7.15482 4 8.2594" fill="#F5FAF6"/>
+<path d="M8 8.2594C8 7.15482 7.10458 6.2594 6 6.2594C4.89542 6.2594 4 7.15482 4 8.2594" stroke="#6FB482" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_111_341">
+<rect width="12" height="12" fill="white" transform="translate(0 0.509399)"/>
+</clipPath>
+</defs>
+</svg>
