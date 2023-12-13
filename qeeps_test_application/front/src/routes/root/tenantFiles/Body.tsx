@@ -17,6 +17,9 @@ import paperMoneyIcon from "../../../assets/paper-money-two.svg";
 import folderIcon from "../../../assets/folder.svg";
 import phoneIcon from "../../../assets/phone.svg";
 import idIcon from "../../../assets/id-card.svg";
+import briefcaseIcon from "../../../assets/briefcase.svg";
+import docFolderIcon from "../../../assets/document-folder.svg";
+import peopleSafeIcon from "../../../assets/people-safe.svg";
 import { useOutletContext } from "react-router-dom";
 
 export function TenantBody() {
@@ -195,7 +198,7 @@ function Candidate() {
           gap={"16px"}
           alignSelf={"stretch"}
         >
-          <ProfileInfoHeader fullName={fullName}></ProfileInfoHeader>
+          <ProfileInfoHeader></ProfileInfoHeader>
           <ProfileFullInfo infos={user}></ProfileFullInfo>
         </AccordionPanel>
       </AccordionItem>
@@ -250,8 +253,11 @@ function Guarantors() {
   );
 }
 
-function ProfileInfoHeader({ fullName }: { fullName: string }) {
+function ProfileInfoHeader() {
+  const user = useOutletContext() as IUser;
+  const fullName = user.firstname + " " + user.lastname;
   const link = fullName.replace(" ", ".").toLowerCase();
+
   return (
     <Flex
       padding={"16px 24px"}
@@ -276,7 +282,45 @@ function ProfileInfoHeader({ fullName }: { fullName: string }) {
             @{link}
           </Text>
         </Flex>
+        <Flex flexDir={"column"} alignItems={"flex-start"} gap={"6px"}>
+          <Flex alignItems={"center"} gap={"4px"}>
+            <Tag icon={briefcaseIcon} text={user.jobname}></Tag>
+            <Tag icon={docFolderIcon} text={user.job ?? "unemployed"}></Tag>
+          </Flex>
+          <Flex alignItems={"center"} gap={"4px"}>
+            {(user.guarantor?.length ?? [].length > 0) && (
+              <Tag icon={peopleSafeIcon} text="Garants" color="#6FB482"></Tag>
+            )}
+          </Flex>
+        </Flex>
       </Flex>
+    </Flex>
+  );
+}
+
+function Tag({
+  icon,
+  text,
+  color = "inherit",
+}: {
+  icon: string;
+  text: string;
+  color?: string;
+}) {
+  return (
+    <Flex
+      h={"24px"}
+      padding={"0px 8px"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      gap={"8px"}
+      borderRadius={"8px"}
+      border={"1px solid #F2F2F2"}
+    >
+      <Image src={icon} alt={icon} />
+      <Text color={color} textAlign={"center"} fontSize={"12px"}>
+        {text}
+      </Text>
     </Flex>
   );
 }

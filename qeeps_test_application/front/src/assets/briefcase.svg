@@ -1,0 +1,11 @@
+<svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="briefcase">
+<path id="Vector" d="M8 4.5094C8 2.99062 7.10458 1.5094 6 1.5094C4.89542 1.5094 4 2.99062 4 4.5094" stroke="#164951" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M2.25 4.5094H9.75L10 7.5094H6.75V6.7594H5.25V7.5094H2L2.25 4.5094Z" fill="#FC9082" stroke="#164951" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="Vector_3">
+<path d="M2 7.5094L1.5 11.0094H10.5L10 7.5094" fill="#FC9082"/>
+<path d="M2 7.5094L1.5 11.0094H10.5L10 7.5094" stroke="#164951" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path id="Vector_4" d="M5.25 6.7594H6.75V8.2594H5.25V6.7594Z" stroke="#164951" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
