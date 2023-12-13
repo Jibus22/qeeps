@@ -6,6 +6,7 @@ import {
   TabPanels,
   TabPanel,
   Box,
+  Flex,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { TenantHeading } from "./tenantFiles/Heading";
@@ -33,30 +34,46 @@ export default function Index() {
 
   return (
     <>
-      <Box minH={"300px"}>
+      <Flex minH={"300px"} w={"100%"} flexDir={"column"} gap={"32px"}>
         {pages[tabIndex].header({ title: pages[tabIndex].title })}
+      </Flex>
+      <Box w={"100%"}>
+        <Tabs onChange={(index) => setTabIndex(index)}>
+          <TabList>
+            {pages.map((elem, idx) => {
+              return (
+                <Tab
+                  key={idx}
+                  padding={".5em 1.5em .5em .3em"}
+                  _selected={{ fontWeight: "600" }}
+                >
+                  {elem.title}
+                </Tab>
+              );
+            })}
+          </TabList>
+          <TabIndicator
+            mt="-2px"
+            height="2px"
+            bg="#164951"
+            borderRadius="1px"
+          />
+          <TabPanels marginTop={"32px"}>
+            {pages.map((elem, idx) => {
+              return (
+                <TabPanel
+                  key={idx}
+                  display={"flex"}
+                  flexDir={"column"}
+                  gap={"32px"}
+                >
+                  {elem.body()}
+                </TabPanel>
+              );
+            })}
+          </TabPanels>
+        </Tabs>
       </Box>
-      <Tabs onChange={(index) => setTabIndex(index)}>
-        <TabList>
-          {pages.map((elem, idx) => {
-            return (
-              <Tab
-                key={idx}
-                padding={".5em 1.5em .5em .3em"}
-                _selected={{ fontWeight: "600" }}
-              >
-                {elem.title}
-              </Tab>
-            );
-          })}
-        </TabList>
-        <TabIndicator mt="-2px" height="2px" bg="#164951" borderRadius="1px" />
-        <TabPanels>
-          {pages.map((elem, idx) => {
-            return <TabPanel key={idx}>{elem.body()}</TabPanel>;
-          })}
-        </TabPanels>
-      </Tabs>
     </>
   );
 }

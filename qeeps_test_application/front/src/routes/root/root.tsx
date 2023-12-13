@@ -49,14 +49,16 @@ export default function Root() {
           flexShrink={"0"}
           alignSelf={"stretch"}
         ></Box>
-        <Flex
-          padding={"32px 32px 32px 0px"}
-          flexDir={"column"}
-          alignItems={"flex-start"}
-          gap={"32px"}
-        >
-          <Outlet context={user} />
-        </Flex>
+        <Box w={"100%"}>
+          <Flex
+            padding={"32px 32px 32px 0px"}
+            flexDir={"column"}
+            alignItems={"flex-start"}
+            gap={"32px"}
+          >
+            <Outlet context={user} />
+          </Flex>
+        </Box>
       </Flex>
     </>
   );
