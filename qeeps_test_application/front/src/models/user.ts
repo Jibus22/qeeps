@@ -10,4 +10,6 @@ interface IUser {
   job?: string;
   situation: string;
   guarantor?: IUser[];
+  phone: string;
+  agency: string;
 }

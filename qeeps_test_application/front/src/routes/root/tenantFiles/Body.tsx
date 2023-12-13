@@ -33,7 +33,6 @@ export function TenantBody() {
 
 function GlanceFilePrez() {
   const user = useOutletContext() as IUser;
-
   const guarantorsIncome = user.guarantor
     ?.map((elem) => {
       return elem.income;
@@ -326,6 +325,9 @@ function ProfileFullInfo({ infos }: { infos: IUser }) {
             return;
 
           const title = translate[elem[0] as keyof typeof translate];
+          let text = elem[1];
+
+          if (elem[0] === "income") text += "€";
 
           return (
             <Flex
@@ -348,7 +350,7 @@ function ProfileFullInfo({ infos }: { infos: IUser }) {
               </Flex>
               <Flex alignItems={"center"} gap={"4px"} flex={"1 0 0"}>
                 <Text textAlign={"center"} fontSize={"14px"}>
-                  {elem[1]}
+                  {text}
                 </Text>
               </Flex>
             </Flex>

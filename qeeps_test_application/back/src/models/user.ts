@@ -12,6 +12,8 @@ interface IUser {
   job?: string;
   situation: string;
   guarantor?: Types.DocumentArray<Types.ObjectId>;
+  phone: string;
+  agency: string;
 }
 
 class MyUser implements Omit<IUser, "guarantor"> {
@@ -26,6 +28,8 @@ class MyUser implements Omit<IUser, "guarantor"> {
   job = "";
   situation = "";
   guarantor = "id";
+  phone = "";
+  agency = "";
 }
 
 const IUserKeys = Object.keys(new MyUser());
@@ -42,6 +46,8 @@ const userSchema = new Schema<IUser>({
   job: { type: String },
   situation: { type: String, required: true },
   guarantor: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  phone: { type: String, required: true },
+  agency: { type: String, required: true },
 });
 
 const User = model<IUser>("User", userSchema);

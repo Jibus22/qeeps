@@ -5,6 +5,7 @@ import send from "../../../assets/send.svg";
 import { MyBreadcrumb } from "../components/Breadcrumb";
 import { MyTitle } from "../components/Title";
 import { MouseEventHandler } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export function TenantHeading({ title }: { title: string }) {
   return (
@@ -19,11 +20,11 @@ export function TenantHeading({ title }: { title: string }) {
 }
 
 function Kpi() {
-  // Get the data with useOutletContext
-  const { userUri, agenceMail } = {
-    userUri: "user_uri",
-    agenceMail: "agence.mayo@gmail.com",
-  };
+  const user = useOutletContext() as IUser;
+  // Quick patch to mimic a uri which would be stored in the databse along the user
+  const userUri =
+    `${user.firstname.slice(0, 3)}${user.lastname.slice(0, 3)}`.toLowerCase() +
+    "64";
 
   return (
     <Flex
@@ -68,9 +69,9 @@ function Kpi() {
         ></UtilSnippet>
         <UtilSnippet
           title="Envoyer le dossier par e-mail"
-          innerElement={<AgenceMail mail={agenceMail}></AgenceMail>}
+          innerElement={<AgenceMail mail={user.agency}></AgenceMail>}
           buttonDesign={<Image src={send} alt="send" />}
-          buttonClick={() => console.log("send to " + agenceMail)}
+          buttonClick={() => console.log("send to " + user.agency)}
         ></UtilSnippet>
       </Flex>
     </Flex>
