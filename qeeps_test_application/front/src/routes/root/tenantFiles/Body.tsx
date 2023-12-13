@@ -12,6 +12,11 @@ import {
 import peopleBottom from "../../../assets/people-bottom.svg";
 import info from "../../../assets/info.svg";
 import qeepsFull from "../../../assets/qeepsSquareFull.png";
+import mailIcon from "../../../assets/mail.svg";
+import paperMoneyIcon from "../../../assets/paper-money-two.svg";
+import folderIcon from "../../../assets/folder.svg";
+import phoneIcon from "../../../assets/phone.svg";
+import idIcon from "../../../assets/id-card.svg";
 
 export function TenantBody() {
   return (
@@ -159,6 +164,12 @@ function FlashCard({ title, text }: { title: string; text: string[] }) {
 
 function Candidate() {
   const candidateName = "Fabien Bricard";
+  const fullInfos = {
+    phone: "0609590385",
+    mail: "coucou@coucou.org",
+    situation: "CDI",
+    income: 2000,
+  };
 
   return (
     <Accordion defaultIndex={[0]} allowMultiple>
@@ -188,7 +199,7 @@ function Candidate() {
           alignSelf={"stretch"}
         >
           <ProfileInfoHeader></ProfileInfoHeader>
-          <ProfileFullInfo></ProfileFullInfo>
+          <ProfileFullInfo infos={fullInfos}></ProfileFullInfo>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
@@ -268,7 +279,27 @@ function ProfileInfoHeader() {
   );
 }
 
-function ProfileFullInfo() {
+const translate = {
+  phone: {
+    title: "Téléphone",
+    icon: <Image src={phoneIcon} alt="phoneIcon" />,
+  },
+  mail: { title: "Mail", icon: <Image src={mailIcon} alt="mailIcon" /> },
+  situation: {
+    title: "Situation Professionnelle",
+    icon: <Image src={folderIcon} alt="folderIcon" />,
+  },
+  income: {
+    title: "Revenus mensuel nets",
+    icon: <Image src={paperMoneyIcon} alt="paperMoneyIcon" />,
+  },
+  fullname: {
+    title: "Nom complet",
+    icon: <Image src={idIcon} alt="idIcon" />,
+  },
+};
+
+function ProfileFullInfo({ infos }: { infos: any }) {
   return (
     <Flex
       padding={"8px 32px"}
@@ -283,7 +314,43 @@ function ProfileFullInfo() {
         justifyContent={"center"}
         alignItems={"flex-start"}
         flex={"1 0 0"}
-      ></Flex>
+      >
+        {Object.entries(infos).map((elem) => {
+          if (
+            !(elem[0] in translate) ||
+            (typeof elem[1] !== "string" && typeof elem[1] !== "number")
+          )
+            return;
+
+          const title = translate[elem[0] as keyof typeof translate];
+
+          return (
+            <Flex
+              padding={"8px 0px"}
+              alignItems={"center"}
+              gap={"4px"}
+              alignSelf={"stretch"}
+            >
+              <Flex alignItems={"center"} gap={"16px"} flex={"1 0 0"}>
+                {title.icon}
+                <Text
+                  color={"#666"}
+                  textAlign={"center"}
+                  fontWeight={300}
+                  fontSize={"14px"}
+                >
+                  {title.title}
+                </Text>
+              </Flex>
+              <Flex alignItems={"center"} gap={"4px"} flex={"1 0 0"}>
+                <Text textAlign={"center"} fontSize={"14px"}>
+                  {elem[1]}
+                </Text>
+              </Flex>
+            </Flex>
+          );
+        })}
+      </Flex>
     </Flex>
   );
 }
